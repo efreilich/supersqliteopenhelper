@@ -1,7 +1,7 @@
 /*
  * SuperSQLiteOpenHelper is a Android library that extends the basic
  * 	SQLiteOpenHelper  for ease of use and automatic management.
- * Copyright(C) 2011 Evan Freilich
+ * Copyright(C) 2011 Evan Freilich (http://diy-developer.blogspot.com/)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
