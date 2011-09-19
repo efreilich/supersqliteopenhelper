@@ -1,0 +1,70 @@
+This is the source code for an example implementation for this library.
+
+{{{
+import com.diy.developer.android_library.SuperSQLiteOpenHelper;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+
+public class myDB extends SuperSQLiteOpenHelper {
+	private static final String DATABASE_NAME = "My_Database";
+	private static final int DATABASE_VERSION = 1;
+	private static final String[][][] DATABASE_SCHEMA = {
+		{	{"table1","1"},
+			// v1
+			{"_id INTEGER primary key autoincrement",
+			"col1 TEXT",
+			"col2 TEXT",
+			"col3 TEXT"}
+		}
+	};
+	
+	myDB (Context context) {
+		super(context, DATABASE_NAME, DATABASE_VERSION, DATABASE_SCHEMA);
+	}
+}
+}}}
+
+There, it's that simple.  I recommend that you also add custom interfaces to your database as you normally would do but this certainly cuts down on the initial development.  Here is an example of custom interfaces that could apply to the database above.  Here, I use Widget as some generic object you might be trying to represent/save using the database.
+
+{{{
+	public long insertWidget( Widget item ) {
+		ContentValues initialValues = new ContentValues();
+		// get values from object to store in table
+		initialValues.put("col1", item.someProperty() );
+		// ...
+		
+		useWritableDatabase();
+		return getActiveDB().insert("table1", null, initialValues);
+		close();
+	}
+	
+	public Object getWidget(long myID) {
+		useReadableDatabase();
+		Cursor results = getActiveDB().query(
+			"table1",
+			null,
+			"_id = (?)",
+			new String[]{ Long.toString(myID) },
+			null,
+			null,
+			"CarID"
+		);
+		// turn record into Widget object
+		Widget rval = new Widget();
+		rval.setSomeProperty( valueFromDatabase );
+
+		close();
+
+		return rval;
+	}
+	
+	public long deleteWidget(long myID) {
+		useWritableDatabase();
+		long tmp = getActiveDB().delete("table1", "_id = " + Long.toString(myID), null);
+		close();
+
+		return tmp;
+	}
+}}}
