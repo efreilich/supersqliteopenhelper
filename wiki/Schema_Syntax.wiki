@@ -1,3 +1,5 @@
+If you have any questions of need any clarification on any of the following, leave a comment and I will update as necessary.  This should handle almost all simple uses for this library but may not include everything you can do.
+
 ==Schema syntax==
 {{{
 DATABASE_SCHEMA = {
