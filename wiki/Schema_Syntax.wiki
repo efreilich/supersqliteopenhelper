@@ -44,7 +44,7 @@ DATABASE_SCHEMA = {
 }}}
 This bit of code will create two tables, *people* and *companies*.  Here is the timeline for how this was done:
 
- *People* was introduced in version 1 of the database with only the _first`_`name_ and _last`_`name_ columns.  A unique was constraint was put on the table based on these two columns.  On conflict, insert and update statements are simply ignored.
+*People* was introduced in version 1 of the database with only the _first`_`name_ and _last`_`name_ columns.  A unique was constraint was put on the table based on these two columns.  On conflict, insert and update statements are simply ignored.
 
 In version 2, the developer added _middle`_`init_.
 
@@ -56,17 +56,16 @@ In version 5, the developer added _salary_ to the *People* table.
 
 ==Other Considerations:==
 ===Primary key columns===
-	These should normally be called _id as most Android-provided helper functions use this as a hard-coded primary key.
+These should normally be called _id as most Android-provided helper functions use this as a hard-coded primary key.
 ===Column declarations===
-	Can follow any of the syntax listed here:
-		[http://sqlite.org/syntaxdiagrams.html#column-def http://sqlite.org/syntaxdiagrams.html#column-def]
+Can follow any of the syntax listed here: [http://sqlite.org/syntaxdiagrams.html#column-def http://sqlite.org/syntaxdiagrams.html#column-def]
 ===Table constraints===
-	Can follow any of the syntas listed here:
-		[http://sqlite.org/syntaxdiagrams.html#table-constraint http://sqlite.org/syntaxdiagrams.html#table-constraint]
-	If you want a combination of columns to define a unique record, as with first_name and last_name in the example, this is where you do it.  Plan and code for the conflict cause if applicable.
+Can follow any of the syntax listed here: [http://sqlite.org/syntaxdiagrams.html#table-constraint http://sqlite.org/syntaxdiagrams.html#table-constraint]
 
-	*Note:* table constraints can only be created when the table is first implemented.  They can never up changed once the table exists.  This is a limitation of SQLite.  Developers can create an onUpgrade override to handle this though.
+If you want a combination of columns to define a unique record, as with first_name and last_name in the example, this is where you do it.  Plan and code for the conflict cause if applicable.
+
+*Note:* table constraints can only be created when the table is first implemented.  They can never up changed once the table exists.  This is a limitation of SQLite.  Developers can create an onUpgrade override to handle this though.
 ===Check all syntax===
-	Most if not all functions will fail if correct SQLite syntax is not used for all columns and constraints.
+Most if not all functions will fail if correct SQLite syntax is not used for all columns and constraints.
 ===You can plan ahead===
-	This library gives you the ability to create the schema for future versions but not implement them.  This is not necessarily recommended as it can get confusing but you should be protected if you wish to do so.
+This library gives you the ability to create the schema for future versions but not implement them.  This is not necessarily recommended as it can get confusing but you should be protected if you wish to do so.
