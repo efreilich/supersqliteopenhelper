@@ -1,1 +1,59 @@
 *NOT COMPLETE* This is a work in progress as I work to convert all my comment blocks into a more web-friendly format.
+<br><br><br>
+
+=Public Methods=
+{{{
+public SuperSQLiteOpenHelper(Context context, String DB_Name, int DB_Version, String[][][] DB_Schema)
+}}}
+Constructor.  Creates a new version of the database helper.  Since this class is abstract, this is where the database information such as name, version, and schema are initialized.<br>
+*Inputs:*
+|| context (Context) || the active context of the app ||
+|| DB_Name (String)) || name of the database ||
+|| DB_Version (int)) || version of the database ||
+|| DB_Schema (String[][][])) || schema of the database (syntax above) ||
+
+*Output:* The new object<br>
+
+*Throws:* None
+
+<br>
+{{{
+public void onCreate(SQLiteDatabase db)
+}}}
+This function handles the creation of a new database. This is done by simply creating all tables listed in the schema. The createTable function handles versioning.<br>
+This function is automatically by Android when useWritableDatabase or useReadableDatabase is called (not called directly).<br>
+*Inputs:*
+|| db (SQLiteDatabase) || the database ||
+
+*Output:* None<br>
+*Throws:* SQLException if error in database schema
+
+<br>
+{{{
+public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+}}}
+This function handles the upgrade to a newer version of the database.  If a table already existed in a previous version, new columns are added to it.  If not, the table is created from scratch.<br>
+This function is automatically by Android when useWritableDatabase or useReadableDatabase is called (not called directly).<br>
+*Inputs:*
+|| db (SQLiteDatabase) || the database ||
+|| oldVersion (int) || the current version (lower) ||
+|| newVersion (int) || the target version (higher) ||
+
+*Output:* None<br>
+*Throws:* SQLException if error in database schema
+
+<br>
+{{{
+public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
+}}}
+This function handles the downgrade to an older version of the database.  Since dropping columns is not allowed in SQLite, each existing table is renamed to a temporary name.  Then, the old version of the tables are created and all old data is moved to the old versions.  Lastly, the temp tables are deleted.<br>
+This function is automatically by Android when useWritableDatabase or useReadableDatabase is called (not called directly).<br>
+*Inputs:*
+|| db (SQLiteDatabase) || the database ||
+|| oldVersion (int) || the current version (higher) ||
+|| newVersion (int) || the target version (lower) ||
+
+*Output:* None<br>
+*Throws:* SQLException if error in database schema
+
+To Be Continued...
