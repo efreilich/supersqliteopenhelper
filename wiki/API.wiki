@@ -56,4 +56,57 @@ This function is automatically by Android when useWritableDatabase or useReadabl
 *Output:* None<br>
 *Throws:* SQLException if error in database schema
 
+<br>
+{{{
+private boolean createTable( SQLiteDatabase db, int index) throws SQLException
+}}}
+This function is a helper function used by the onCreate, onUpgrade/Downgrade functions to create individual tables. This function takes an index into the schema array to the specific table to be created.  This creates all columns and adds any listed constraints.  If created successfully, the function returns true. If the table does not exist in the current version, it is skipped and the function returns false.<br>
+This function is automatically by other automatic functions (not called directly).<br>
+*Inputs:*
+|| db (SQLiteDatabase) || the database ||
+|| index (int) || position in schema array of table to create ||
+
+*Output:* Boolean<br>
+ * True if table was created
+ * False if table was not created (table does not exist in current version)<br>
+*Throws:* SQLException if error in database schema
+
+<br>
+{{{
+public SQLiteDatabase getActiveDB()
+}}}
+Returns the database object in case the developer wants to interact in a non-supported way.<br>
+*Inputs:* None<br>
+*Output:* SQLiteDatabase - the reference to the internal active database object<br>
+*Throws:* None
+
+<br>
+{{{
+public void useWritableDatabase()
+}}}
+Opens a writeable copy of the database and saves it to an internal variable for later use. If there is an existing version open, it is first closed.<br>
+*Inputs:* None<br>
+*Output:* None<br>
+*Throws:* None
+
+<br>
+{{{
+public void useReadableDatabase()
+}}}
+Opens a readable copy of the database and saves it to an internal variable for later use. If there is an existing version open, it is first closed.<br>
+*Inputs:* None<br>
+*Output:* None<br>
+*Throws:* None
+
+<br>
+{{{
+public void close()
+}}}
+Closes the internal reference to the database.<br>
+*Inputs:* None<br>
+*Output:* None<br>
+*Throws:* None
+
+<br>
+
 To Be Continued...
