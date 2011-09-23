@@ -108,5 +108,98 @@ Closes the internal reference to the database.<br>
 *Throws:* None
 
 <br>
+{{{
+public boolean cleanDatabase(SQLiteDatabase activeDB_)
+}}}
+This function cleans the database by deleted all records in all tables.  This is not done in a transaction and is not rolled back if there is an error. If you need a transaction, place the database to be passed in in a transaction and act accordingly.<br>
+*Inputs:*
+|| activeDB_ (SQLiteDatabase || the database to clean ||
+*Output:* Boolean
+ * True if cleaned completely
+ * False if an error occurred
+*Throws:* SQLException if error in database schema
 
+<br>
+{{{
+public boolean cleanDatabase()
+}}}
+This is a convenience method to call the above version of cleanDatabase.  This functions get a writable copy of the database and passes it to the above function.<br>
+*Inputs:* None
+*Output:* Boolean
+ * True if cleaned completely
+ * False if an error occurred
+*Throws:* SQLException if error in database schema
+
+<br>
+{{{
+public boolean exportToFile( File dest )
+}}}
+This function will export this database to a given file in an xml format.<br>
+*Inputs:*
+|| dest (File) || the file to export to ||
+*Output:* Boolean
+ * True if successful
+ * False if not
+*Throws:* None
+
+<br>
+{{{
+public Element exportToElement()
+}}}
+This function will export this database document element.<br>
+*Inputs:* None
+*Output:* Element
+ * The document element containing the database
+ * Null if error
+*Throws:* None
+
+<br>
+{{{
+private static String docNodeToXMLString(Node root)
+}}}
+This is a recursive function that will convert an entire document to an xml string.  If necessary, the function will call itself for any children nodes.  If called on the root node, an xml header will be inserted.  Attributes are supported but are not used in the exportToFile function.<br>
+*Inputs:*
+Inputs:
+|| root (Node) || the node at which to start building xml ||
+*Output:* String || The xml string representing the document
+*Throws:* None
+
+<br>
+{{{
+public int importFromFile( File source, boolean append )
+}}}
+This function will import data from a given xml file into this database.  If append is false, the database will be cleaned before import.  The import will only import the tables/columns that exist in the database and will ignore extra data.  Missing columns (in case of import from older version) will be inserted as null.  If these columns are non-null, the import will fail and an error will be returned. If a constraint is violated, the import will fail and an error will be returned (this can be avoided if 'ON CONFLICT' is specified as IGNORE or REPLACE - see SQLite documentation). It is up to the developer to handle these reported errors as appropriate.<br>
+For now, non-null and constraint violations are indistinguishable. However, this may be fixed in the future (insertWithOnConflict is available in Android API Level 8).<br>
+*Inputs:*
+|| source (File) || the file to import from ||
+|| append (boolean) || append to database (false to clean it first) ||
+*Output:* int || import return code
+*Throws:* None
+
+<br>
+{{{
+public int importFromElement( Element dbTables, boolean append )
+}}}
+This function will import data from a given document element.  If append is false, the database will be cleaned before import.  The import will only import the tables/columns that exist in the database and will ignore extra data.  Missing columns (in case of import from older version) will be inserted as null.  If these columns are non-null, the import will fail and an error will be returned. If a constraint is violated, the import will fail and an error will be returned (this can be avoided if 'ON CONFLICT' is specified as IGNORE or REPLACE - see SQLite documentation). It is up to the developer to handle these reported errors as appropriate.<br>
+For now, non-null and constraint violations are indistinguishable. However, this may be fixed in the future (insertWithOnConflict is available in Android API Level 8).<br>
+*Inputs:*
+|| dbTables (Element) || document with data in it ||
+|| append (boolean) || append to database (false to clean it first) ||
+*Output:* int || import return code
+*Throws:* None
+
+<br>
+{{{
+private void fillTableFromXML(SQLiteDatabase db, String thisTable, String[] theseColumns, NodeList myRecords)
+}}}
+This function will insert data into a database. The database to be inserted into, the table and columns in insert into, and the data to insert.<br>
+*Inputs:*
+|| db (SQLiteDatabase) || the database to insert into ||
+|| thisTable (String) || the table to insert into ||
+|| theseColumns (String[]) || the columns to insert into the table ||
+|| myRecords (NodeList) || the data to fill the table ||
+*Output:* None
+*Throws:* None
+
+<br>
 To Be Continued...
